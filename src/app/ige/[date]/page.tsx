@@ -6,18 +6,16 @@ import AccordionData from "@/components/AccordionData";
 import DatePickerForm from "@/components/DatePicker";
 
 const DatePage = () => {
-    const router = useRouter();
     const params = useParams();
 
     const { date } = params;
 
-    console.log(params)
-
     const parsedDate = parse(date as string, "MM-dd", new Date())
+
 
     if (!isValid(parsedDate)) {
         const currentDate = format(new Date(), "MM-dd");
-        redirect(`/${currentDate}`);
+        redirect(`/ige/${currentDate}`);
     }
 
     return (

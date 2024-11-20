@@ -17,15 +17,15 @@ const DatePickerForm = ({ date }: { date: Date }) => {
 
     const handleDateSelect = (selectedDate: Date | undefined) => {
         if (selectedDate) {
-            router.push(`/${format(selectedDate, 'MM-dd')}`);
+            router.push(`/ige/${format(selectedDate, 'MM-dd')}`);
         }
     };
 
     return (
-        <div className="flex items-center gap-2 ">
+        <div className="flex justify-center items-center gap-2 md:w-9/12 md:m-auto">
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant="outline" className='py-6 select-none flex-1 hover:bg-background'>
+                    <Button variant="outline" className='py-6 select-none flex-1 hover:bg-background w-full'>
                         <CalendarIcon />
                         {date ? format(date, "PPP", { locale: hu }) : <span>Válassz dátumot!</span>}
                     </Button>

@@ -39,7 +39,7 @@ Krisztus a mi Urunk által
 Ámen`
 
     return (
-        <div className="">
+        <div className="md:m-auto md:w-9/12 h-full">
             <Accordion type="multiple" defaultValue={defaultOpenItems} className="w-full h-full">
                 <AccordionItem value="ige">
                     <AccordionTrigger>
