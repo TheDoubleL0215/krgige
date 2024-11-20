@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     Popover,
     PopoverContent,
@@ -9,7 +9,6 @@ import { CalendarIcon } from 'lucide-react';
 import { hu } from 'date-fns/locale/hu';
 import { format } from 'date-fns';
 import { Calendar } from './ui/calendar';
-import { redirect } from 'next/dist/server/api-utils';
 import { useRouter } from 'next/navigation';
 
 const DatePickerForm = ({ date }: { date: Date }) => {

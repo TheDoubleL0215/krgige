@@ -1,11 +1,11 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { SelectValue } from '@radix-ui/react-select'
-import { Search, Trash } from 'lucide-react'
-import React, { use, useEffect, useState } from 'react'
+import { Search } from 'lucide-react'
+import React, { useState } from 'react'
 
 const Dashboard = () => {
     const months = ['január', 'február', 'március', 'április', 'május', 'június', 'julius', 'augusztus', 'szeptember', 'október', 'november', 'december']
