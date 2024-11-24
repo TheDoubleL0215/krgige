@@ -15,6 +15,7 @@ const DatePage = () => {
 
     if (!isValid(parsedDate)) {
         const currentDate = format(new Date(), "MM-dd");
+        console.log("Basszameg: ", currentDate);
         redirect(`/ige/${currentDate}`);
     }
 
