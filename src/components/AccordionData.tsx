@@ -15,8 +15,8 @@ type Props = {
 const AccordionData = (props: Props) => {
     const defaultOpenItems = [
         'napkezdo',
-        ...props.verse ? ['ige'] : [],
-        ...props.thought ? ['gondolat'] : [],
+        'ige',
+        'gondolat'
     ]
 
     const fohasz =

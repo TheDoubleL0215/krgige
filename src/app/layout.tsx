@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster"
 
 const AlegreyaRegular = localFont({
   src: "./fonts/Alegreya-Regular.ttf",
@@ -35,6 +36,7 @@ export default function RootLayout({
         className={`${AlegreyaRegular.variable} ${AlegreyaMedium.variable} ${SourceSerif4Regular.variable} antialiased`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
