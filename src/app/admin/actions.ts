@@ -1,46 +1,46 @@
-"use server";
+'use server'
 
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { z } from "zod";
-import { createSession, deleteSession } from "@/lib/session";
-import { redirect } from "next/navigation";
-
-const testUser = {
-    id: "1",
-    username: "vincze.arpad",
-    password: "Admin123",
-};
+import { createClient } from '@/utils/supabase/server'
 
 const loginSchema = z.object({
     username: z.string().min(1, { message: "Írja be a felhasználónevet!" }).trim(),
     password: z.string().min(1, { message: "Írja be a jelszót!" }).trim(),
 });
 
-export async function login(prevState: unknown, formData: FormData) {
-    const result = loginSchema.safeParse(Object.fromEntries(formData));
-
-    if (!result.success) {
-        return {
-            errors: result.error.flatten().fieldErrors,
-        };
+export async function login(formData: FormData) {
+    const supabase = await createClient()
+    const data = {
+        email: formData.get('email') as string,
+        password: formData.get('password') as string,
     }
 
-    const { username, password } = result.data;
 
-    if (username !== testUser.username || password !== testUser.password) {
-        return {
-            errors: {
-                username: ["Invalid username or password"],
-            },
-        };
+    const { error } = await supabase.auth.signInWithPassword(data)
+
+    if (error) {
+        redirect('/error')
     }
 
-    await createSession(testUser.id);
-
-    redirect("/dashboard");
+    redirect('/dashboard')
 }
 
+export async function signup(formData: FormData) {
+    const supabase = await createClient()
 
-export async function logout() {
-    await deleteSession();
-    redirect("/admin");
+    const data = {
+        email: formData.get('email') as string,
+        password: formData.get('password') as string,
+    }
+
+    const { error } = await supabase.auth.signUp(data)
+
+    if (error) {
+        redirect('/error')
+    }
+
+    revalidatePath('/', 'layout')
+    redirect('/')
 }

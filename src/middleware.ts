@@ -3,7 +3,9 @@ import { NextRequest } from "next/server";
 import { decrypt } from "./lib/session";
 import { NextResponse } from "next/server";
 import { format } from "date-fns";
+import { updateSession } from "@/utils/supabase/middleware";
 
+// Define route lists
 const protectedRoutes = ["/dashboard"];
 const publicRoutes = ["/admin"];
 
@@ -25,32 +27,20 @@ export default async function middleware(req: NextRequest) {
     const isProtectedRoute = protectedRoutes.includes(path);
     const isPublicRoute = publicRoutes.includes(path);
 
-    // Only handle session for protected and public routes
+
+    // Handle session for protected and public routes
     if (isProtectedRoute || isPublicRoute) {
-        const cookie = (await cookies()).get("session")?.value;
-
-        // If cookie exists, decrypt it; otherwise, handle redirects accordingly
-        let session = null;
-
-        if (cookie) {
-            try {
-                session = await decrypt(cookie);
-            } catch (error) {
-                console.error("Error decrypting session:", error);
-            }
-        }
-
-        // Redirect to login page if session doesn't exist for protected routes
-        if (isProtectedRoute && !session?.userId) {
-            return NextResponse.redirect(new URL("/admin", req.url));
-        }
-
-        // Redirect to dashboard if user is already logged in on public route
-        if (isPublicRoute && session?.userId) {
-            return NextResponse.redirect(new URL("/dashboard", req.url));
-        }
+        const updatedSessionResponse = await updateSession(req);
+        return updatedSessionResponse; // If `updateSession` handles the response, return it
     }
 
     // Default pass-through for other routes
     return NextResponse.next();
 }
+
+// Middleware configuration to include custom matcher
+export const config = {
+    matcher: [
+        '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    ],
+};

@@ -6,7 +6,6 @@ const secretKey = process.env.SESSION_SECRET
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function createSession(userId: string) {
-    console.log("env session key: ", process.env.SESSION_SECRET)
     const session = await encrypt({ userId });
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
@@ -46,6 +45,6 @@ export async function decrypt(session: string | undefined = "") {
         });
         return payload;
     } catch (error) {
-        console.log("Nem sikerült ", error);
+        console.log("Nem sikerült dekodolni", error);
     }
 }
