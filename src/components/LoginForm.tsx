@@ -2,14 +2,21 @@
 
 import React, { useActionState } from "react";
 import { login } from "../app/admin/actions";
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, CircleUserRound, RectangleEllipsis } from "lucide-react";
+import { ArrowRight, CircleUserRound, CircleX, Mail, RectangleEllipsis } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useFormStatus } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+
+const initialState = {
+    message: '',
+}
+
 
 const LoginForm = () => {
+
+    const [state, formAction] = useActionState(login, initialState)
 
     return (
         <main className="min-h-screen flex flex-col justify-center items-center bg-gray-50">
@@ -17,7 +24,16 @@ const LoginForm = () => {
                 <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
                     Bejelentkezés
                 </h2>
-                <form action={login} className="flex flex-col">
+                <form action={formAction} className="flex flex-col">
+                    {state.message && (
+                        <Alert variant="destructive" className="mb-4">
+                            <div className="flex gap-3 justify-center items-center">
+                                <CircleX className="w-4 h-4" aria-hidden="true" />
+                                <AlertTitle className="p-0 m-0">Helytelen email vagy jelszó</AlertTitle>
+                            </div>
+                        </Alert>
+                    )}
+
                     {/* Username Error */}
                     <div className="relative mb-4">
                         <Input
@@ -28,7 +44,7 @@ const LoginForm = () => {
                             placeholder="Email"
                         />
                         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                            <CircleUserRound size={16} strokeWidth={2} aria-hidden="true" />
+                            <Mail size={16} strokeWidth={2} aria-hidden="true" />
                         </div>
                     </div>
 

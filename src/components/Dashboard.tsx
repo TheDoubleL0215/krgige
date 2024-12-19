@@ -10,8 +10,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Search } from "lucide-react";
 import convertDate from "@/utils/convertDate";
 import { Ige } from "@/utils/types";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 
 type DashboardProps = {
@@ -31,6 +29,7 @@ const Dashboard = ({ user }: DashboardProps) => {
     const [igehelyInput, setIgehelyInput] = useState<string>("");
     const [igeInput, setIgeInput] = useState<string>("");
     const [thoughtInput, setThoughtInput] = useState<string>("");
+    const [prayInput, setPrayInput] = useState<string>("");
     const [ige, setIgek] = useState<Ige[]>([]); // State to store the fetched data
 
     const supabase = createClient(); // Client-side Supabase instance
@@ -40,10 +39,12 @@ const Dashboard = ({ user }: DashboardProps) => {
             setIgehelyInput(ige[0]?.author);
             setIgeInput(ige[0]?.verse);
             setThoughtInput(ige[0]?.thought);
+            setPrayInput(ige[0]?.pray);
         } else {
             setIgehelyInput("");
             setIgeInput("");
             setThoughtInput("");
+            setPrayInput("");
         }
     }, [ige]);
 
@@ -53,9 +54,23 @@ const Dashboard = ({ user }: DashboardProps) => {
         setIgehelyInput("");
         setIgeInput("");
         setThoughtInput("");
+        setPrayInput("");
     };
 
+    /**
+     * Handles the saving of the new or updated daily verse.
+     * If successful, it resets the input fields and shows a success toast.
+     * If there's an error, it shows an error toast with the error message.
+     */
     const handleSave = async () => {
+        if (!selectMonth || !selectDay) {
+            toast({
+                title: "Hiba történt",
+                description: "Nem adta meg a hónapot vagy a napot",
+                variant: "destructive",
+            });
+            return;
+        }
         const formattedDate = convertDate(months.indexOf(selectMonth), selectDay);
 
         const { data, error } = await supabase
@@ -66,6 +81,7 @@ const Dashboard = ({ user }: DashboardProps) => {
                     author: igehelyInput,
                     verse: igeInput,
                     thought: thoughtInput,
+                    pray: prayInput,
                 },
                 { onConflict: "date" }
             )
@@ -88,6 +104,11 @@ const Dashboard = ({ user }: DashboardProps) => {
         }
     };
 
+    /**
+     * Fetches the daily verse entry for the selected month and day.
+     * If there's an error, it logs the error to the console.
+     * If the fetch is successful, it updates the state with the fetched data.
+     */
     const searchForEntry = async () => {
         const formatedDate = convertDate(months.indexOf(selectMonth), selectDay);
         const { data, error } = await supabase.from("igek").select().eq("date", formatedDate);
@@ -152,6 +173,10 @@ const Dashboard = ({ user }: DashboardProps) => {
             <div className="w-full">
                 <h1>Gondolatébresztő</h1>
                 <Textarea className='h-32 resize-none' placeholder='Írja ide a gondolatébresztőt' value={thoughtInput || ""} onChange={(e) => setThoughtInput(e.target.value)} />
+            </div>
+            <div className="w-full">
+                <h1>Rövid imádság</h1>
+                <Textarea className='h-32 resize-none' placeholder='Írja ide az imádságot' value={prayInput || ""} onChange={(e) => setPrayInput(e.target.value)} />
             </div>
             <div className="w-full flex justify-end">
                 <Button className='w-5/12' onClick={handleSave}>Mentés</Button>

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 
+//Loads the fonts used in the application
 const AlegreyaRegular = localFont({
   src: "./fonts/Alegreya-Regular.ttf",
   variable: "--font-alegreya-regular",
