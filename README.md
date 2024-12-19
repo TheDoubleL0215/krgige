@@ -12,9 +12,6 @@ Ez a projekt egy **Next.js** és **Supabase** alapú webalkalmazás, amely napi 
 - NextJS + React
 - Supabase
 
-## Telepítés
-
-1. **Projekt klónozása:**
-   ```bash
-   git clone https://github.com/felhasznalonev/napi-ige.git
-   cd napi-ige
+### Készítő
+Lévai Levente Gábor\
+Kecskeméti Református Gimnázium
