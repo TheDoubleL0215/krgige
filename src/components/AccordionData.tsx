@@ -24,8 +24,9 @@ const AccordionData = (props: Props) => {
         'gondolat'
     ]
 
-    const fohasz =
-        `Jöjj el, Szentlélek Úristen,
+    const startPray =
+        `
+Jöjj el, Szentlélek Úristen,
 igazság és szeretet Lelke!
 Adj nekünk jó lelket, kedvet,
 szorgalmat és kitartást
@@ -43,6 +44,24 @@ hogy egész életünkben
 alkalmasak legyünk
 az igazság szolgálatára
 Krisztus, a mi Urunk által.
+
+Ámen.`
+
+    const endPray =
+        `
+Urunk, Jézus Krisztus,  
+Te vagy az Út, amelyen járnunk kell,  
+az Igazság, amelyet keresve keresünk,  
+az Élet, amely egyetlen boldogságunk.  
+
+Hálát adunk mindenért,  
+amit ma kaptunk tőled.  
+Add, hogy eredményeink és kudarcaink  
+egyformán Hozzád vezessenek.  
+
+Te pedig vezess minket Atyádhoz,  
+akit Veled és Általad dicsérünk  
+most és mindörökké.  
 
 Ámen.`
 
@@ -91,11 +110,23 @@ Krisztus, a mi Urunk által.
                         <h1 className="text-3xl font-bold font-alegreyaMedium">Napkezdő imádság</h1>
                     </AccordionTrigger>
                     <AccordionContent>
-                        <pre className="text-xl text-start font-sourceSerif4Regular">
-                            {fohasz}
+                        <pre className="text-xl font-sourceSerif4Regular whitespace-pre-line text-start leading-relaxed">
+                            {startPray}
                         </pre>
                     </AccordionContent>
                 </AccordionItem>
+                <AccordionItem value="napzaro">
+                    {/* "Prayer at the end of the day" accordion */}
+                    <AccordionTrigger>
+                        <h1 className="text-3xl font-bold font-alegreyaMedium">Napzáró imádság</h1>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <pre className="text-xl font-sourceSerif4Regular whitespace-pre-line text-start leading-relaxed">
+                            {endPray}
+                        </pre>
+                    </AccordionContent>
+                </AccordionItem>
+
             </Accordion>
         </div>
     )
