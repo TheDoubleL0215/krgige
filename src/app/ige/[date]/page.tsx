@@ -14,49 +14,50 @@ import { Ige } from "@/utils/types";
  */
 
 const DatePage = () => {
-    const supabase = createClient();
+	const supabase = createClient();
 
-    const params = useParams();
-    const { date } = params;
+	const params = useParams();
+	const { date } = params;
 
-    const [igek, setIgek] = useState<Ige[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+	const [igek, setIgek] = useState<Ige[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
 
-    //Converts the date yyyy-mm-dd to mm-dd
-    const parsedDate = parse(date as string, "MM-dd", new Date());
+	//Converts the date yyyy-mm-dd to mm-dd
+	const parsedDate = parse(date as string, "MM-dd", new Date());
 
-    if (!isValid(parsedDate)) {
-        const currentDate = format(new Date(), "MM-dd");
-        redirect(`/ige/${currentDate}`);
-    }
+	if (!isValid(parsedDate)) {
+		const currentDate = format(new Date(), "MM-dd");
+		redirect(`/ige/${currentDate}`);
+	}
 
 
-    //Requests the data from the database on page load
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data, error } = await supabase.from("igek").select().eq("date", date);
-            if (error) {
-                console.error("Error fetching data:", error);
-            } else {
-                setIgek(data);
-                setIsLoading(false);
-            }
-        };
+	//Requests the data from the database on page load
+	useEffect(() => {
+		const fetchData = async () => {
+			const { data, error } = await supabase.from("igek").select().eq("date", date);
+			if (error) {
+				console.error("Error fetching data:", error);
+			} else {
+				setIgek(data);
+				setIsLoading(false);
+			}
+		};
 
-        fetchData();
-    }, []);
+		fetchData();
+	}, []);
 
-    return (
-        <div className="flex flex-col m-4">
-            <DatePickerForm date={parsedDate} />
-            <AccordionData
-                author={igek[0]?.author}
-                verse={igek[0]?.verse}
-                thought={igek[0]?.thought}
-                pray={igek[0]?.pray}
-                loading={isLoading} />
-        </div>
-    );
+	return (
+		<div className="flex flex-col m-4">
+			<DatePickerForm date={parsedDate} />
+			<AccordionData
+				author={igek[0]?.author}
+				verse={igek[0]?.verse}
+				thought={igek[0]?.thought}
+				pray={igek[0]?.pray}
+				teacher={igek[0]?.teacher}
+				loading={isLoading} />
+		</div>
+	);
 };
 
 export default DatePage;
