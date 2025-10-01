@@ -1,7 +1,7 @@
 export default function convertDate(month: number, day: string) {
     let parsedSelectMonth
     let parsedSelectDay
-    if (month < 10) {
+    if (month < 9) {
         parsedSelectMonth = `0${month + 1}`
     } else {
         parsedSelectMonth = month + 1

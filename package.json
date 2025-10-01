@@ -22,6 +22,7 @@
     "@radix-ui/react-toast": "^1.2.2",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.46.1",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
